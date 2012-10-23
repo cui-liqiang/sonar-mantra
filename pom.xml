@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.codehaus.sonar.examples</groupId>
-  <artifactId>sonar-reference-plugin</artifactId>
+  <groupId>com.thoughtworks</groupId>
+  <artifactId>sonar-mantra</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>0.1-SNAPSHOT</version>
 
-  <name>Sonar Examples :: Reference Plugin</name>
-  <description>plugin description will be displayed in Sonar</description>
+  <name>Sonar Coverage Improvement Plugin</name>
+  <description></description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,6 +32,12 @@
       <version>${sonar.buildVersion}</version>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.codehaus.sonar</groupId>
+          <artifactId>sonar-batch-bootstrapper</artifactId>
+          <version>3.2</version>
+      </dependency>
+
   </dependencies>
 
   <build>
