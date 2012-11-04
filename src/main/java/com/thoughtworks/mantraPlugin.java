@@ -20,6 +20,6 @@ public final class mantraPlugin extends SonarPlugin {
   public static final String MY_PROPERTY = "com.thoughtworks.mantra";
 
   public List getExtensions() {
-    return Arrays.asList(CheckCoverageDelta.class);
+    return Arrays.asList(CheckDelta.class);
   }
 }

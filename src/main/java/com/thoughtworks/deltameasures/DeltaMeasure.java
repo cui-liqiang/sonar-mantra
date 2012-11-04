@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.deltameasures;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,38 +8,24 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeltaMeasure {
+public abstract class DeltaMeasure {
     public static final Logger LOG = LoggerFactory.getLogger(DeltaMeasure.class);
     private static final String SONAR_HOME = System.getenv("SONAR_HOME") + "/extensions/plugins/";
-    private Measure measure;
-    private Double threshold;
+    protected Measure measure;
+    protected Double threshold;
 
     public DeltaMeasure(Measure measure, Double threshold) {
         this.measure = measure;
         this.threshold = threshold;
     }
 
-    public String logResultsAndReturnMessage(String projectName) {
-        boolean fail = false;
-        String lastSuccessfulHistoryData = getLastSuccessfulHistoryData(projectName, measure.getMetric().getName());
-
-        if(lastSuccessfulHistoryData != null) {
-            fail = measure.getValue() < Double.valueOf(lastSuccessfulHistoryData);
-        }
-
-        recordHistoryData(projectName, measure, fail);
-
-        if(fail) {
-            return "Your code coverage decrease by " + (Double.valueOf(lastSuccessfulHistoryData) - measure.getValue()) + "\n";
-        }
-        return "";
-    }
+    abstract public String logResultsAndReturnMessage(String projectName);
 
     public boolean worseThanThreshold() {
         return measure != null && measure.getValue() < threshold;
     }
 
-    private String getLastSuccessfulHistoryData(String projectName, String metricName) {
+    protected String getLastSuccessfulHistoryData(String projectName, String metricName) {
         String snapshotFile = SONAR_HOME + projectName + "_" + metricName + ".csv";
         try {
             File file = new File(snapshotFile);
@@ -67,7 +53,7 @@ public class DeltaMeasure {
         return valueAndStatuses;
     }
 
-    private void recordHistoryData(String projectName, Measure measure, boolean fail) {
+    protected void recordHistoryData(String projectName, Measure measure, boolean fail) {
         String projectDataFile = SONAR_HOME + projectName + "_" + measure.getMetric().getName() + ".csv";
         try {
             File file = new File(projectDataFile);
